@@ -1,0 +1,1 @@
+# Scripts em python para realizar exploração de vulnerabilidades
