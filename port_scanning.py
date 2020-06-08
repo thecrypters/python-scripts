@@ -7,9 +7,8 @@ from datetime import datetime
 # Clear the screen
 subprocess.call('clear', shell=True)
 
-# Ask for input
-remoteServer    = input("Enter a remote host to scan: ")
-remoteServerIP  = socket.gethostbyname(remoteServer)
+remoteServer    = input("Informe um nome de HOST remoto para o Scan: ")
+remoteServerIP  = socket.gethostbyname(remoteServer)  # traduz o nome do host para IPv4
 
 # Print a nice banner with information on which host we are about to scan
 print("-" * 60)
@@ -24,7 +23,11 @@ t1 = datetime.now()
 # We also put in some error handling for catching errors
 
 try:
-    for port in range(1,1025):  
+    for port in range(1,1025):
+        '''
+            AF_INET => Socket Family
+            SOCK_STREAM => Socket type for TCP connections
+        '''
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         result = sock.connect_ex((remoteServerIP, port))
         if result == 0:
