@@ -10,28 +10,23 @@ subprocess.call('clear', shell=True)
 remoteServer    = input("Informe um nome de HOST remoto para o Scan: ")
 remoteServerIP  = socket.gethostbyname(remoteServer)  # traduz o nome do host para IPv4
 
-# Print a nice banner with information on which host we are about to scan
 print("-" * 60)
-print("Please wait, scanning remote host", remoteServerIP)
+print("Escaneando o IP: ", remoteServerIP)
 print("-" * 60)
 
-# Check what time the scan started
-t1 = datetime.now()
-
-# Using the range function to specify ports (here it will scans all ports between 1 and 1024)
-
-# We also put in some error handling for catching errors
+tInicio = datetime.now()
 
 try:
-    for port in range(1,1025):
+    for port in range(1,1000):
         '''
             AF_INET => Socket Family
             SOCK_STREAM => Socket type for TCP connections
         '''
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(1)
         result = sock.connect_ex((remoteServerIP, port))
-        if result == 0:
-            print("Port {}: Open".format(port))
+        status = "Open" if result == 0 else "Close"
+        print(f"Port {port} | Status {status}")
         sock.close()
 
 except KeyboardInterrupt:
@@ -46,11 +41,6 @@ except socket.error:
     print("Couldn't connect to server")
     sys.exit()
 
-# Checking the time again
-t2 = datetime.now()
-
-# Calculates the difference of time, to see how long it took to run the script
-total =  t2 - t1
-
-# Printing the information to screen
-print('Scanning Completed in: ', total)
+tFim = datetime.now()
+tempoTotal =  tFim - tInicio
+print('Escaneamento completo em: ', tempoTotal)
