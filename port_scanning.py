@@ -1,13 +1,11 @@
 #!/usr/bin/env python
-import socket
-import subprocess
-import sys
+import socket, subprocess, sys
 from datetime import datetime
 
 # Clear the screen
 subprocess.call('clear', shell=True)
 
-remoteServer    = input("Informe um nome de HOST remoto para o Scan: ")
+remoteServer = input("Informe um nome de HOST remoto para o Scan: ")
 remoteServerIP  = socket.gethostbyname(remoteServer)  # traduz o nome do host para IPv4
 
 print("-" * 60)
@@ -22,11 +20,17 @@ try:
             AF_INET => Socket Family
             SOCK_STREAM => Socket type for TCP connections
         '''
+        
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.settimeout(1)
+        
         result = sock.connect_ex((remoteServerIP, port))
-        status = "Open" if result == 0 else "Close"
-        print(f"Port {port} | Status {status}")
+        if result == 0:
+            print(f"Port {port} | Open")
+        
+        # sock.connect((remoteServerIP, port))
+        # banner = sock.recv(1024)
+        # print(banner)
+
         sock.close()
 
 except KeyboardInterrupt:
