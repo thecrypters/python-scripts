@@ -5,7 +5,7 @@ from datetime import datetime
 # Clear the screen
 subprocess.call('clear', shell=True)
 
-remoteServer = input("Informe um nome de HOST remoto para o Scan: ")
+remoteServer = sys.argv[1]
 remoteServerIP  = socket.gethostbyname(remoteServer)  # traduz o nome do host para IPv4
 
 print("-" * 60)
@@ -22,14 +22,17 @@ try:
         '''
         
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        
         result = sock.connect_ex((remoteServerIP, port))
         if result == 0:
-            print(f"Port {port} | Open")
-        
-        # sock.connect((remoteServerIP, port))
-        # banner = sock.recv(1024)
-        # print(banner)
+            try:
+                sockBanner = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                sockBanner.settimeout(1)
+                sockBanner.connect((remoteServerIP, port))
+                banner = sockBanner.recv(1024)
+                sockBanner.close()
+                print(f"Porta {port} | {banner}")
+            except socket.timeout:
+                print(f"Porta {port} | Serviço não retornou banner.")
 
         sock.close()
 
