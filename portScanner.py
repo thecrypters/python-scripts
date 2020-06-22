@@ -6,13 +6,14 @@ from datetime import datetime
 subprocess.call('clear', shell=True)
 
 remoteServer = sys.argv[1]
-remoteServerIP  = socket.gethostbyname(remoteServer)  # traduz o nome do host para IPv4
+remoteServerIP  = socket.gethostbyname(remoteServer)  # translate hostname to IPv4
+
 
 print("-" * 60)
 print("Escaneando o IP: ", remoteServerIP)
 print("-" * 60)
 
-tInicio = datetime.now()
+tStart = datetime.now()
 
 try:
     for port in range(1,1000):
@@ -22,6 +23,7 @@ try:
         '''
         
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(3)
         result = sock.connect_ex((remoteServerIP, port))
         if result == 0:
             try:
@@ -30,9 +32,9 @@ try:
                 sockBanner.connect((remoteServerIP, port))
                 banner = sockBanner.recv(1024)
                 sockBanner.close()
-                print(f"Porta {port} | {banner}")
+                print(f"Port {port} | {banner}")
             except socket.timeout:
-                print(f"Porta {port} | Serviço não retornou banner.")
+                print(f"Port {port} | Service not returned a banner.")
 
         sock.close()
 
@@ -48,6 +50,5 @@ except socket.error:
     print("Couldn't connect to server")
     sys.exit()
 
-tFim = datetime.now()
-tempoTotal =  tFim - tInicio
-print('Escaneamento completo em: ', tempoTotal)
+tEnd = datetime.now()
+print(f'Scanning time: {tEnd - tStart}')
