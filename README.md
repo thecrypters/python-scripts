@@ -1,10 +1,10 @@
 ## Scripts em python para exploração de vulnerabilidades
-Este repositório destina-se aos códigos desenvolvidos em python pela equipe The Crypters.
+Este repositório destina-se aos códigos desenvolvidos em python pela equipe The Crypters.<br/>
 **OBS:** utiliza python 3
 
-### portScanning.py
-Escaneador de portas TCP.
-**python3 portScanner.py "ip ou nome do host"**
-### enumeration.py
-Enumeração SMTP.
-**python3 smtpEnumerator.py "ip do host" "porta"**
+### portScanner.py
+Escaneador de portas TCP.<br/>
+**Como executar:** python3 portScanner.py "ip ou nome do host"
+### smtpEnumerator.py
+Enumeração SMTP.<br/>
+**Como executar:** python3 smtpEnumerator.py "ip do host" "porta"
