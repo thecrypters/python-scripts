@@ -6,7 +6,7 @@ Este repositório destina-se aos códigos desenvolvidos em python pela equipe Th
 Escaneador de portas TCP.<br/>
 **Como executar:**
 ```bash
-python3 portScanner.py "ip ou nome do host"
+python3 portScanner.py "ip ou nome do host" "porta inicial" "porta final"
 ```
 ### smtpEnumerator.py
 Enumeração SMTP.<br/>

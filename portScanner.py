@@ -7,16 +7,19 @@ subprocess.call('clear', shell=True)
 
 remoteServer = sys.argv[1]
 remoteServerIP  = socket.gethostbyname(remoteServer)  # translate hostname to IPv4
+portStart = int(sys.argv[2])
+portEnd = int(sys.argv[3])
 
 
 print("-" * 60)
-print("Escaneando o IP: ", remoteServerIP)
+print("Scanning IP: ", remoteServerIP)
 print("-" * 60)
 
+labels = []
 tStart = datetime.now()
 
 try:
-    for port in range(1,1000):
+    for port in range(portStart,portEnd+1):
         '''
             AF_INET => Socket Family
             SOCK_STREAM => Socket type for TCP connections
@@ -32,9 +35,9 @@ try:
                 sockBanner.connect((remoteServerIP, port))
                 banner = sockBanner.recv(1024)
                 sockBanner.close()
-                print(f"Port {port} | {banner}")
+                labels.append(f"Port {port} | {banner}")
             except socket.timeout:
-                print(f"Port {port} | Service not returned a banner.")
+                labels.append(f"Port {port} | Service not returned a banner.")
 
         sock.close()
 
@@ -51,4 +54,10 @@ except socket.error:
     sys.exit()
 
 tEnd = datetime.now()
-print(f'Scanning time: {tEnd - tStart}')
+
+for label in labels:
+    print(label)
+
+print("-" * 60)
+print(f'Scanned {portEnd} ports in {tEnd - tStart}')
+print("-" * 60)
